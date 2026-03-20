@@ -13006,6 +13006,7 @@ function HomeSupportPage({ creator }) {
 
   const quickQ = ["How do I get verified?","How do I reject a booking?","How do I withdraw earnings?","What are promotion categories?","How does 'Be On Top' work?","How much does Collancer charge?"];
 
+  const fmtTime = (ts) => {
     const d = new Date(ts), now = new Date(), diff = now - d;
     if (diff < 86400000) return d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
     if (diff < 604800000) return d.toLocaleDateString("en-IN",{weekday:"short"});
