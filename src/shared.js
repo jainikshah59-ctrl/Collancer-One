@@ -447,6 +447,14 @@ const Styles = () => {
       animation:gradshift 4s ease infinite
     }
 
+    /* Elevated previews for Collancer Pro */
+    .ai-preview,.demo-preview{isolation:isolate;transition:transform .32s cubic-bezier(.16,1,.3,1),box-shadow .32s ease,border-color .32s ease}
+    .ai-preview::before,.demo-preview::before{content:"";position:absolute;z-index:-1;inset:-35% -20%;background:radial-gradient(circle at 50% 20%,rgba(0,229,255,.13),transparent 36%),radial-gradient(circle at 80% 70%,rgba(156,106,247,.2),transparent 34%);animation:gradshift 7s ease-in-out infinite;pointer-events:none}
+    .ai-preview:hover,.demo-preview:hover{transform:translateY(-3px);border-color:rgba(156,106,247,.52)!important;box-shadow:0 18px 52px rgba(0,0,0,.48),0 0 34px rgba(156,106,247,.14)!important}
+    .preview-pill{transition:transform .2s ease,background .2s ease,border-color .2s ease}
+    .preview-pill:hover{transform:translateY(-2px);background:rgba(156,106,247,.18)!important;border-color:rgba(156,106,247,.44)!important}
+    @media (prefers-reduced-motion:reduce){.ai-preview,.demo-preview,.ai-preview::before,.demo-preview::before{animation:none!important;transition:none!important}}
+
     @keyframes btnShimmer{0%{left:-80%}100%{left:120%}}
 
     /* ── Primary Clay Button (cyan) ── */
@@ -5702,7 +5710,7 @@ function ProfilePage({ inf, userReviews, bizName="Your Business", initials="BZ",
             </div>
           ) : (
             // Locked — Pro required
-            <div style={{background:"linear-gradient(145deg,rgba(22,22,52,.97),rgba(14,14,34,.99))",border:"1px solid rgba(156,106,247,.25)",borderRadius:24,
+            <div className="demo-preview" style={{background:"linear-gradient(145deg,rgba(22,22,52,.97),rgba(14,14,34,.99))",border:"1px solid rgba(156,106,247,.25)",borderRadius:24,
               padding:0,overflow:"hidden",position:"relative",minHeight:260}}>
               <div style={{filter:"blur(3px)",opacity:.4,padding:20,pointerEvents:"none"}}>
                 {[{type:"Story Demo",format:"9:16",dur:"0:15",desc:"Instagram Story Promotion Demo"},
@@ -7545,7 +7553,14 @@ function ReferralPayoutSection({ totalEarned }) {
 }
 
 // ── Footer ─────────────────────────────────────────────
-function Footer() { return null; }
+function Footer({ onNav }) {
+  return <footer style={{position:"relative",zIndex:1,padding:"22px 20px 28px",textAlign:"center",background:"linear-gradient(180deg,transparent,rgba(9,9,24,.72))",borderTop:"1px solid rgba(0,229,255,.09)"}}>
+    <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:8,marginBottom:12}}><Logo size={20}/><span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:13,fontWeight:800}}>Coll<span className="glow">ancer</span></span></div>
+    <div style={{display:"flex",justifyContent:"center",gap:14,marginBottom:16}}>{[["Privacy","privacy"],["Terms","terms"]].map(([label,page])=><button key={page} onClick={()=>onNav&&onNav(page)} style={{background:"none",border:"none",padding:0,cursor:"pointer",color:"var(--txt2)",fontSize:11,fontFamily:"'DM Sans',sans-serif"}}>{label}</button>)}</div>
+    <div style={{fontSize:10,color:"var(--txt3)",lineHeight:1.7}}>© 2026 Collancer. All rights reserved.</div>
+    <div style={{display:"block",marginTop:3,fontSize:10,color:"var(--c)",fontWeight:700,letterSpacing:.55}}>Made in India 🇮🇳</div>
+  </footer>;
+}
 
 // ── Wallet Page ───────────────────────────────────────
 function WalletPage({ authUser, bizData, walletBalance=0, onBalanceUpdate }) {
@@ -8169,7 +8184,7 @@ function VoiceBot({ onSelect, extraCreators=[], onProClick, isPro=false }) {
         </div>
       ) : (
         /* ── LOCKED CLEO — Premium teaser ── */
-        <div style={{borderRadius:26,overflow:"hidden",
+        <div className="ai-preview" style={{position:"relative",borderRadius:26,overflow:"hidden",
           background:"linear-gradient(160deg,rgba(20,8,45,.97) 0%,rgba(8,4,22,.98) 60%)",
           border:"1px solid rgba(156,106,247,.28)",
           boxShadow:"0 8px 40px rgba(156,106,247,.1),0 0 0 1px rgba(156,106,247,.06)"}}>
